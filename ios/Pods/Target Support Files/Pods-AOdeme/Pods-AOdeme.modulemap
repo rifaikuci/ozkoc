@@ -1,0 +1,6 @@
+module Pods_AOdeme {
+  umbrella header "Pods-AOdeme-umbrella.h"
+
+  export *
+  module * { export * }
+}
