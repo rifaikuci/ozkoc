@@ -118,6 +118,7 @@ const List = ({route, navigation}) => {
             style={{margin: 10}}
         >
 
+
             <View style={{flexDirection: "row"}}>
                 <View style={{marginVertical: 10, marginRight: 20}}>
                     <TouchableOpacity
@@ -125,6 +126,40 @@ const List = ({route, navigation}) => {
                     >
                         <Image source={require("../../../assets/icons/back.png")} style={{width: 30, height: 30}}/>
                     </TouchableOpacity>
+                </View>
+
+            </View>
+            <View style={{
+                flexDirection: "row", justifyContent: "flex-start"
+            }}>
+                <View style={{justifyContent: "flex-start", flex: 3}}>
+
+                    <Text style={{margin: 5, color: "#7986CB", fontWeight: "bold"}}>
+                        Toplam(Mt) : {numberWithCommas(sum(array))}
+                    </Text>
+                    <Text style={{margin: 5, color: "#999", fontWeight: "bold"}}>
+                        Toplam Top Say: {array.length}
+                    </Text>
+                </View>
+                <View style={{justifyContent: "flex-end", flex: 2}}>
+
+                    <TouchableOpacity
+                        onPress={async () => {
+                            saveData()
+                            setKod(null)
+                            setText(null)
+                            navigation.navigate("Main")
+
+                        }}
+                        style={{
+                            backgroundColor: "#263238", marginRight: 10, padding: 10, borderRadius: 4,
+                            justifyContent: "center", alignItems: "center"
+                        }}>
+                        <Text style={{fontSize: 15, fontWeight: "bold", color: "#FAFAFA"}}>
+                            Güncelle
+                        </Text>
+                    </TouchableOpacity>
+
                 </View>
             </View>
             <View style={{
@@ -145,6 +180,8 @@ const List = ({route, navigation}) => {
                     onSubmitEditing={(e) => {
                         if (e.nativeEvent.text && e.nativeEvent.text > 0) {
                             array.push(e.nativeEvent.text)
+                            array= array.map(item => item).reverse()
+
                         }
                         textInput.focus()
                         setText("")
@@ -180,39 +217,6 @@ const List = ({route, navigation}) => {
                               );
                           }}
                 />
-            </View>
-            <View style={{
-                flexDirection: "row", justifyContent: "flex-start"
-            }}>
-                <View style={{justifyContent: "flex-start", flex: 3}}>
-
-                    <Text style={{margin: 5, color: "#7986CB", fontWeight: "bold"}}>
-                        Toplam(Mt) : {numberWithCommas(sum(array))}
-                    </Text>
-                    <Text style={{margin: 5, color: "#999", fontWeight: "bold"}}>
-                        Toplam Top Say: {array.length}
-                    </Text>
-                </View>
-                <View style={{justifyContent: "flex-end", flex: 2}}>
-
-                    <TouchableOpacity
-                        onPress={async () => {
-                            saveData()
-                            setKod(null)
-                            setText(null)
-                            navigation.navigate("Main")
-
-                        }}
-                        style={{
-                            backgroundColor: "#263238", marginRight: 10, padding: 10, borderRadius: 4,
-                            justifyContent: "center", alignItems: "center"
-                        }}>
-                        <Text style={{fontSize: 15, fontWeight: "bold", color: "#FAFAFA"}}>
-                            Güncelle
-                        </Text>
-                    </TouchableOpacity>
-
-                </View>
             </View>
         </SafeAreaView>
     )
