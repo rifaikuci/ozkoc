@@ -95,28 +95,50 @@ const Main = ({navigation}) => {
         let wb = null;
         let ws = null;
         wb = XLSX.utils.book_new();
-
         list.forEach(x => {
-            array = x.length > 0 ? x[1].split(",") : [];
             let printData = [];
-            let firstData = {"": "", "metreler": ""}
-            printData.push(firstData);
 
-            array.forEach(x => {
-                printData.push({"": "", "metreler": x})
+            array = x.length > 0 ? x[1].split(",") : [];
+
+
+            let firmName = x[0];
+            let dotname = "#";
+            let dotname2 = "##";
+            let dotname3 = "####";
+            let dotname4 = "#####";
+            let dotname5 = "######";
+            let dotname6 = "#######";
+
+            printData.push({
+                [firmName]: "",
+                [dotname]: "Toplam MT",
+                [dotname2]: numberWithCommas(sum(array)),
+                [dotname3]: "Toplam Top",
+                [dotname4]: array.length,
+                [dotname5]: "",
+                [dotname6]: "",
             })
-            printData.push({"": "", "metreler": ""})
-
-            printData.push({"": "Toplam Mt", "metreler": numberWithCommas(sum(array))})
-
-            printData.push({"": "", "metreler": ""})
-
-            printData.push({"": "Toplam Top", "metreler": array.length})
+            array = array.sort();
 
 
-             ws = XLSX.utils.json_to_sheet(printData)
-             XLSX.utils.book_append_sheet(wb, ws, x[0])
+            let uzunluk = 45;
 
+            for (let i = 0; i < array.length; i++) {
+                printData.push({
+                    [firmName]: i < uzunluk ? array[i] : "",
+                    [dotname]: i < uzunluk ? array[uzunluk + i] ? array[uzunluk + i] : "" : "",
+                    [dotname2]: i < uzunluk ? array[(uzunluk * 2) + i] ? array[(uzunluk * 2) + i] : "" : "",
+                    [dotname3]: i < uzunluk ? array[(uzunluk * 3) + i] ? array[(uzunluk * 3) + i] : "" : "",
+                    [dotname4]: i < uzunluk ? array[(uzunluk * 4) + i] ? array[(uzunluk * 4) + i] : "" : "",
+                    [dotname5]: i < uzunluk ? array[(uzunluk * 5) + i] ? array[(uzunluk * 5) + i] : "" : "",
+                    [dotname6]: i < uzunluk ? array[(uzunluk * 6) + i] ? array[(uzunluk * 6) + i] : "" : "",
+
+                })
+            }
+
+
+            ws = XLSX.utils.json_to_sheet(printData)
+            XLSX.utils.book_append_sheet(wb, ws, x[0])
 
 
         })
@@ -126,19 +148,18 @@ const Main = ({navigation}) => {
             filePath = RNFS.DocumentDirectoryPath + '/' + "kumaslar" + '.xlsx'
 
         } else {
-            filePath = RNFS.ExternalStorageDirectoryPath + '/' + "kumaslar"+ '.xlsx'
+            filePath = RNFS.ExternalStorageDirectoryPath + '/' + "kumaslar" + '.xlsx'
 
         }
 
 
         RNFS.writeFile(filePath, wbout, 'ascii').then((r) => {
-                handleEmail(filePath, "kumaslar")
+            handleEmail(filePath, "kumaslar")
 
             //console.log(RNFS.ExternalStorageDirectoryPath + '/my_exported_file.xlsx');
         }).catch((e) => {
             console.log('Error', e);
         });
-
 
 
         /*
@@ -168,20 +189,51 @@ const Main = ({navigation}) => {
 
         let printData = [];
 
-        let firstData = {"": "", "metreler": ""}
-        printData.push(firstData);
+        let firmName = item[0];
+        let dotname = "#";
+        let dotname2 = "##";
+        let dotname3 = "####";
+        let dotname4 = "#####";
+        let dotname5 = "######";
+        let dotname6 = "#######";
 
-        array.forEach(x => {
-            printData.push({"": "", "metreler": x})
+        printData.push({
+            [firmName]: firmName,
+            [dotname]: "Toplam MT",
+            [dotname2]: numberWithCommas(sum(array)),
+            [dotname3]: "Toplam Top",
+            [dotname4]: array.length,
+            [dotname5]: "",
+            [dotname6]: "",
         })
 
-        printData.push({"": "", "metreler": ""})
+        printData.push({
+            [firmName]: "",
+            [dotname]: "",
+            [dotname2]: "",
+            [dotname3]: "",
+            [dotname4]: "",
+            [dotname5]: "",
+            [dotname6]: "",
+        })
 
-        printData.push({"": "Toplam Mt", "metreler": numberWithCommas(sum(array))})
 
-        printData.push({"": "", "metreler": ""})
+        array = array.sort();
+        let uzunluk = 45;
 
-        printData.push({"": "Toplam Top", "metreler": array.length})
+        for (let i = 0; i < array.length; i++) {
+            printData.push({
+                [firmName]: i < uzunluk ? array[i] : "",
+                [dotname]: i < uzunluk ? array[uzunluk + i] ? array[uzunluk + i] : "" : "",
+                [dotname2]: i < uzunluk ? array[(uzunluk * 2) + i] ? array[(uzunluk * 2) + i] : "" : "",
+                [dotname3]: i < uzunluk ? array[(uzunluk * 3) + i] ? array[(uzunluk * 3) + i] : "" : "",
+                [dotname4]: i < uzunluk ? array[(uzunluk * 4) + i] ? array[(uzunluk * 4) + i] : "" : "",
+                [dotname5]: i < uzunluk ? array[(uzunluk * 5) + i] ? array[(uzunluk * 5) + i] : "" : "",
+                [dotname6]: i < uzunluk ? array[(uzunluk * 6) + i] ? array[(uzunluk * 6) + i] : "" : "",
+
+            })
+        }
+
 
         let wb = XLSX.utils.book_new();
         let ws = XLSX.utils.json_to_sheet(printData)
@@ -200,7 +252,6 @@ const Main = ({navigation}) => {
         RNFS.writeFile(filePath, wbout, 'ascii').then((r) => {
             handleEmail(filePath, item[0])
 
-            //console.log(RNFS.ExternalStorageDirectoryPath + '/my_exported_file.xlsx');
         }).catch((e) => {
             console.log('Error', e);
         });
@@ -232,8 +283,25 @@ const Main = ({navigation}) => {
 
     const removeItem = async (key) => {
         try {
-            await AsyncStorage.removeItem(key)
-            importData()
+            Alert.alert(
+                "Uyarı",
+                "Kayıt Silinecek  Kayıt : "+ key,
+                [
+                    {
+                        text: "Vazgeç",
+                        onPress: () => {
+                        },
+                        style: "cancel"
+                    },
+                    {
+                        text: "Evet", onPress: async () => {
+                            await AsyncStorage.removeItem(key)
+                            importData()
+                        }
+                    }
+                ]
+            );
+
 
         } catch (e) {
         }
