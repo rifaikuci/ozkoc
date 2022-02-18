@@ -118,6 +118,7 @@ const Main = ({navigation}) => {
                 [dotname5]: "",
                 [dotname6]: "",
             })
+            array= array.map(Number)
             array = array.sort();
 
 
@@ -168,22 +169,7 @@ const Main = ({navigation}) => {
         });
 
 
-        /*
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
 
     }
 
@@ -223,7 +209,7 @@ const Main = ({navigation}) => {
             [dotname6]: "",
         })
 
-
+        array= array.map(Number)
         array = array.sort();
         let uzunluk = 45;
 

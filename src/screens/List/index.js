@@ -179,8 +179,7 @@ const List = ({route, navigation}) => {
                     returnKeyType={"done"}
                     onSubmitEditing={(e) => {
                         if (e.nativeEvent.text && e.nativeEvent.text > 0) {
-                            array.push(e.nativeEvent.text)
-                            array= array.map(item => item).reverse()
+                            array = [e.nativeEvent.text].concat(array)
 
                         }
                         textInput.focus()
