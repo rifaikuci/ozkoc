@@ -142,13 +142,19 @@ const Main = ({navigation}) => {
 
 
         })
+        let today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '_' + dd + '_' + yyyy;
 
         wbout = XLSX.write(wb, {type: 'binary', bookType: "xlsx"});
         if (Platform.OS === "ios") {
-            filePath = RNFS.DocumentDirectoryPath + '/' + "kumaslar" + '.xlsx'
+            filePath = RNFS.DocumentDirectoryPath + '/' + today + "kumaslar" + '.xlsx'
 
         } else {
-            filePath = RNFS.ExternalStorageDirectoryPath + '/' + "kumaslar" + '.xlsx'
+            filePath = RNFS.ExternalStorageDirectoryPath + '/' + today + "kumaslar" + '.xlsx'
 
         }
 
@@ -198,7 +204,7 @@ const Main = ({navigation}) => {
         let dotname6 = "#######";
 
         printData.push({
-            [firmName]: firmName,
+            [firmName]: "",
             [dotname]: "Toplam MT",
             [dotname2]: numberWithCommas(sum(array)),
             [dotname3]: "Toplam Top",
@@ -239,13 +245,21 @@ const Main = ({navigation}) => {
         let ws = XLSX.utils.json_to_sheet(printData)
         XLSX.utils.book_append_sheet(wb, ws, item[0])
         let wbout = XLSX.write(wb, {type: 'binary', bookType: "xlsx"});
+        let today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '_' + dd + '_' + yyyy;
 
         let filePath = "";
         if (Platform.OS === "ios") {
-            filePath = RNFS.DocumentDirectoryPath + '/' + item[0] + '.xlsx'
+
+            item[0] = item[0].replace(" ", "_")
+            filePath = RNFS.DocumentDirectoryPath + '/' + today + item[0] + '.xlsx'
 
         } else {
-            filePath = RNFS.ExternalStorageDirectoryPath + '/' + item[0] + '.xlsx'
+            filePath = RNFS.ExternalStorageDirectoryPath + '/' + today + item[0] + '.xlsx'
 
         }
 
@@ -285,7 +299,7 @@ const Main = ({navigation}) => {
         try {
             Alert.alert(
                 "Uyarı",
-                "Kayıt Silinecek  Kayıt : "+ key,
+                "Kayıt Silinecek  Kayıt : " + key,
                 [
                     {
                         text: "Vazgeç",
